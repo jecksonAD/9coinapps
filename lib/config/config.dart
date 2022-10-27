@@ -38,6 +38,7 @@ class Api {
   static const _getuserdata = "/userinfo";
   static const _getcategory = "/categorylist";
   static const _getcategoryrandom = "/categorylistrandom";
+  static const _getpointpackage = "/pointpackage";
   static const _notification = "/notifications";
 
   static String baseUrl = "$_base$_api";
@@ -77,7 +78,7 @@ class Api {
   static String forgetPassword = "$_base$_api$_forgetPassword";
   static String changePassword = "$_base$_api$_changePassword";
   static String notification = "$_base$_api$_notification";
-
+  static String getpointpackage = "$_base$_api$_getpointpackage";
   static String showpurchasedproductdetail =
       "$_base$_api$_showpurchasedproductdetail";
 }

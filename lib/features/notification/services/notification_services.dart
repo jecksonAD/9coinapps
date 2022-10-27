@@ -7,7 +7,7 @@ import '../../../config/config.dart';
 Future<NotificationModel> getNotification() async {
   String url = Api.notification;
   var uri = Uri.parse(url);
-
+  print(url);
   var response = await http.get(
     uri,
     headers: {
