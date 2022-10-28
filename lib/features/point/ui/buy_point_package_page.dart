@@ -13,6 +13,7 @@ class BuyPointPackagePage extends StatelessWidget {
 
   BuyPointPackagePage({Key? key}) : super(key: key);
   pointpackage getdata = pointpackage();
+  late pointpackageresponse pointpackageresponses;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,24 +25,31 @@ class BuyPointPackagePage extends StatelessWidget {
             centerTitle: true,
             title: const Text("Buy Point Package"),
           ),
-          body: FutureBuilder<List>(
+          body: FutureBuilder<pointpackageresponse>(
             future: getdata.getpointpackage(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                pointpackageresponses = snapshot.data!;
                 return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: snapshot.data?.length,
+                    itemCount: pointpackageresponses.data.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           const SizedBox(height: 24),
                           BuyPointCardTile(
                             onTap: () {
-                              Navigator.push(context, PackageBuyPage.route());
+                              Navigator.push(
+                                  context,
+                                  PackageBuyPage.route(
+                                      pointpackage: pointpackageresponses,
+                                      index: index));
                             },
-                            packageNum: "Package 2",
-                            point: 20,
-                            pointDetail: "RM 65",
+                            packageNum: pointpackageresponses.data![index].name,
+                            point: pointpackageresponses.data![index].point,
+                            pointDetail: "RM " +
+                                pointpackageresponses.data![index].myr
+                                    .toString(),
                           ),
                         ],
                       );

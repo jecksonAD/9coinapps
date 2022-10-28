@@ -1,21 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:ninecoin/colors/colors.dart';
+import 'package:ninecoin/features/point/api/pointpackage.dart';
 import 'package:ninecoin/features/point/ui/package_payment_page.dart';
 import 'package:ninecoin/typography/text_styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class PackageBuyPage extends StatelessWidget {
-  static route() {
-    return MaterialPageRoute(builder: (_) => const PackageBuyPage());
+import '../../../config/config.dart';
+
+class PackageBuyPage extends StatefulWidget {
+  static route(
+      {required pointpackageresponse pointpackage, required int index}) {
+    return MaterialPageRoute(builder: (context) {
+      return PackageBuyPage(pointpackage: pointpackage, index: index);
+    });
   }
 
-  const PackageBuyPage({Key? key}) : super(key: key);
+  final pointpackageresponse pointpackage;
+  final int index;
+
+  const PackageBuyPage(
+      {Key? key, required this.pointpackage, required this.index})
+      : super(key: key);
+
+  @override
+  State<PackageBuyPage> createState() => _PackageBuyPageState();
+}
+
+class _PackageBuyPageState extends State<PackageBuyPage> {
+  late String Userid = "";
+  pointpackage getdata = new pointpackage();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata.getUserId().then((value) {
+      setState(() {
+        Userid = value.toString();
+        print(Userid);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Package 2"),
+        title: Text(widget.pointpackage.data[widget.index].name),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 36),
@@ -26,18 +57,19 @@ class PackageBuyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Package 2", style: CoinTextStyle.title3),
+                  Text(widget.pointpackage.data[widget.index].name,
+                      style: CoinTextStyle.title3),
                   const SizedBox(height: 3.0),
-                  Text('''Mauris non ligula tempus, lacinia velit a, aliquam
-metus. Nulla at sapien scelerisque, imperdiet ex non,
-venenatis mi.''', style: CoinTextStyle.title4),
+                  Text(widget.pointpackage.data[widget.index].description,
+                      style: CoinTextStyle.title4),
                   const SizedBox(height: 18.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RichText(
                         text: TextSpan(
-                          text: "20",
+                          text: widget.pointpackage.data[widget.index].point
+                              .toString(),
                           style:
                               CoinTextStyle.orangeTitle1.copyWith(fontSize: 26),
                           children: [
@@ -54,7 +86,8 @@ venenatis mi.''', style: CoinTextStyle.title4),
                           style: CoinTextStyle.title2,
                           children: [
                             TextSpan(
-                              text: " RM 65",
+                              text: "RM " +
+                                  widget.pointpackage.data[widget.index].myr,
                               style: CoinTextStyle.orangeTitle1
                                   .copyWith(fontSize: 26),
                             ),
@@ -94,7 +127,17 @@ venenatis mi.''', style: CoinTextStyle.title4),
             ),
             ElevatedButton(
               onPressed: () async {
-                Navigator.push(context, PackagePaymentPage.route());
+                String url = Api.buypointpackage +
+                    "/" +
+                    Userid.toString() +
+                    "/" +
+                    widget.pointpackage.data[widget.index].id.toString();
+                // const url = 'https://www.google.com';
+                if (!await launchUrl(
+                  Uri.parse(url),
+                  mode: LaunchMode.externalApplication,
+                )) {}
+                throw 'Could not launch $url';
               },
               child: const Text("Pay"),
             ),
@@ -102,5 +145,14 @@ venenatis mi.''', style: CoinTextStyle.title4),
         ),
       ),
     );
+  }
+}
+
+Future<void> _launchInBrowser(Uri url) async {
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw 'Could not launch $url';
   }
 }
