@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/typography/text_styles.dart';
@@ -33,7 +34,22 @@ class CategoryCircularCard extends StatelessWidget {
             ),
             child: imageurl == 'null'
                 ? Image.asset(imageUrl, height: 40, width: 40)
-                : Image.network(imageurl, height: 40, width: 40),
+                : Image.network(imageurl, height: 40, width: 40, loadingBuilder:
+                    (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  }, errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                    return Image.asset(imageUrl, height: 40, width: 40);
+                  }),
           ),
           Text(label,
               style: CoinTextStyle.title3.copyWith(color: CoinColors.white)),

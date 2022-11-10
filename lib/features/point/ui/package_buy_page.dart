@@ -132,7 +132,7 @@ class _PackageBuyPageState extends State<PackageBuyPage> {
                     Userid.toString() +
                     "/" +
                     widget.pointpackage.data[widget.index].id.toString();
-                // const url = 'https://www.google.com';
+                //   const url = 'https://www.google.com';
                 if (!await launchUrl(
                   Uri.parse(url),
                   mode: LaunchMode.externalApplication,

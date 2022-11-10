@@ -46,6 +46,7 @@ class _RedeemedListTileState extends State<RedeemedListTile> {
                     snapshot.data![index]['ProductRedeemid'].toString()),
                 builder: (context, indexx) {
                   if (indexx.hasData) {
+                    print(snapshot.data![index]['redeemstatus']);
                     return RedeemptionsCard(
                       point: indexx.data![0]['point'],
                       address: indexx.data![0]['address'],

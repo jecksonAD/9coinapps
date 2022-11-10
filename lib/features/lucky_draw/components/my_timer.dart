@@ -37,8 +37,13 @@ class MyHomePageState extends State<MyHomePage> {
         } else {
           _timer.cancel();
           updatestatus.updatedrawnstatus(widget.LuckrdrawListid);
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (_) => App()), (route) => false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => App(
+                        page: 3,
+                      )),
+              (route) => false);
         }
       });
     });

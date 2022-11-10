@@ -61,7 +61,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       if (await showResetPasswordDialog(context)) {
                         ForgotPassword(email: emailController.text)
                             .then((value) async {
-                          if (await showNewPasswordResetDialog(context)) {
+                          print(value);
+                          if (await showNewPasswordResetDialog(
+                              context, value)) {
                             Navigator.push(context, LoginPage.route());
                           }
                         });

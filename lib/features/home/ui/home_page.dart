@@ -13,6 +13,7 @@ import 'package:ninecoin/typography/text_styles.dart';
 import '../../../model/notification/notification_model.dart';
 import '../../category/api/merchant.dart';
 import '../../category/ui/category_details_page.dart';
+import '../../category/ui/category_search_result.dart';
 import '../../category/ui/product_details_page.dart';
 import '../../lucky_draw/ui/luckydraw_page.dart';
 import '../../news/services/news.dart';
@@ -25,10 +26,12 @@ import '../components/category_circular_card.dart';
 import '../components/circle_icon.dart';
 import '../components/rounded_feature_card.dart';
 import '../components/rounded_news_card.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
   final Widget? body;
-  const HomePage({Key? key, this.body}) : super(key: key);
+  final int? page;
+  const HomePage({Key? key, this.body, this.page}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -44,6 +47,22 @@ class _HomePageState extends State<HomePage> {
     LuckydrawPage(),
     NewsPage(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    if (widget.page == null) {
+      setState(() {
+        currentPage = 0;
+      });
+    } else {
+      setState(() {
+        currentPage = widget.page!;
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +148,16 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Expanded(
                   child: TextField(
+                    onSubmitted: (value) {
+                      // print(value);
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CategoryResultPage(value)));
+                    },
+                    textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 0, 0, 0),
                       prefixIcon: Icon(Icons.search),
@@ -145,7 +171,53 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: Image.asset("assets/pics/slider.jpg")),
+              Expanded(
+                  child: CarouselSlider(
+                options: CarouselOptions(),
+                items: [1, 2, 3, 4, 5].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return FutureBuilder<List>(
+                        future: getcategorydata.banner(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Image.network(
+                                  snapshot.data![0]
+                                          ['bannerimage_' + i.toString()]
+                                      .toString(),
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              }, errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                return Image.asset("assets/pics/slider.jpg");
+                              }),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                }).toList(),
+              )),
             ],
           ),
           const SizedBox(height: 16),

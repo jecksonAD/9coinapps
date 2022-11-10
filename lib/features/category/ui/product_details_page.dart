@@ -160,36 +160,28 @@ class ProductDetails extends StatelessWidget {
                     style: CoinTextStyle.title3Bold
                         .copyWith(color: CoinColors.orange),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                      "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                      style: CoinTextStyle.title4.copyWith(
-                        letterSpacing: 0.5,
-                      )),
-                  const SizedBox(height: 6),
-                  Text(
-                      "2. Proin et orci in quam porta condimentum. Mauris non ligula tempus, lacinia velit a, aliquam metus.",
-                      style: CoinTextStyle.title4.copyWith(
-                        letterSpacing: 0.5,
-                      )),
-                  const SizedBox(height: 6),
-                  Text(
-                      "3. Nulla atone sapien scelerisque, imperdiet exq non, venenatis mi.",
-                      style: CoinTextStyle.title4.copyWith(
-                        letterSpacing: 0.5,
-                      )),
-                  const SizedBox(height: 6),
-                  Text(
-                      "4. Nullam arcu leo, blandit nec consequat vel, molestie et sem.",
-                      style: CoinTextStyle.title4.copyWith(
-                        letterSpacing: 0.5,
-                      )),
-                  const SizedBox(height: 6),
-                  Text(
-                      "5. Praesent pretium erat at nulla euismod, a rutrum elit blandit. Etiam nec aliquam metus.",
-                      style: CoinTextStyle.title4.copyWith(
-                        letterSpacing: 0.5,
-                      )),
+                  Column(
+                    children: <Widget>[
+                      for (int i = 0;
+                          i < snapshot.data![index]['servicecount'];
+                          i++)
+                        Column(
+                          children: [
+                            const SizedBox(height: 6),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                  snapshot.data![index]
+                                      ['service_' + i.toString()],
+                                  style: CoinTextStyle.title4.copyWith(
+                                    letterSpacing: 0.5,
+                                  )),
+                            ),
+                            const SizedBox(height: 6),
+                          ],
+                        )
+                    ],
+                  ),
                 ]);
               });
         } else {

@@ -234,12 +234,19 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     buyluckydraw(
-                        prefs.getInt('userId').toString(),
-                        widget.luckyDrawData.data[widget.index].id.toString(),
-                        amountofpurchase);
-                    await showDrawnSuccessfulDialog(context);
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => App()));
+                            prefs.getInt('userId').toString(),
+                            widget.luckyDrawData.data[widget.index].id
+                                .toString(),
+                            amountofpurchase)
+                        .then((value) async {
+                      await showDrawnSuccessfulDialog(context, value)
+                          .then((value) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => App(
+                                  page: 3,
+                                )));
+                      });
+                    });
 
                     /* putLuckyDraw(
                             widget.luckyDrawData.data[widget.index].id

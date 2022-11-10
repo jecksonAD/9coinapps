@@ -65,14 +65,14 @@ class LuckyDrawParticipateList {
   });
 
   final int id;
-  final String userid;
+  final int userid;
   final dynamic createdAt;
 
   final DateTime? updatedAt;
   final int redeemstatus;
   final int winningstatus;
   final int drawnstatus;
-  final String luckydrawid;
+  final int luckydrawid;
 
   factory LuckyDrawParticipateList.fromJson(Map<String, dynamic> json) =>
       LuckyDrawParticipateList(

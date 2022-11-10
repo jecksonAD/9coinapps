@@ -99,33 +99,29 @@ class _ActiveCouponDetailsState extends State<ActiveCouponDetails> {
                           style: CoinTextStyle.title3Bold
                               .copyWith(color: CoinColors.orange),
                         ),
-                        FutureBuilder<List>(
-                          future: getdata.GetTnC(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              print(snapshot.data?.length);
-                              return Column(
-                                children: <Widget>[
-                                  for (int i = 0;
-                                      i < snapshot.data!.length;
-                                      i++)
-                                    Column(
-                                      children: [
-                                        const SizedBox(height: 6),
-                                        Text(
-                                            snapshot.data![i]['description']
-                                                .toString(),
+                        Column(
+                          children: <Widget>[
+                            for (int i = 0;
+                                i < snapshot.data![0]['servicecount'];
+                                i++)
+                              Column(
+                                children: [
+                                  Column(
+                                    children: [
+                                      const SizedBox(height: 6),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            snapshot.data![0]
+                                                ['tnc_' + i.toString()],
                                             style: CoinTextStyle.title4),
-                                        const SizedBox(height: 6),
-                                      ],
-                                    )
+                                      ),
+                                      const SizedBox(height: 6),
+                                    ],
+                                  )
                                 ],
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-                            return const CircularProgressIndicator();
-                          },
+                              )
+                          ],
                         ),
                         const SizedBox(height: 12),
                         const Divider(thickness: 2),
@@ -200,7 +196,7 @@ class _ActiveCouponDetailsState extends State<ActiveCouponDetails> {
                               .copyWith(color: CoinColors.orange),
                         ),
                         Text(
-                          "1/5/2022 - 31/5/2022",
+                          snapshot.data![0]['SEdate'].toString(),
                           textAlign: TextAlign.center,
                           style: CoinTextStyle.title3,
                         ),

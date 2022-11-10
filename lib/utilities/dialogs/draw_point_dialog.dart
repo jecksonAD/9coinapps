@@ -8,8 +8,7 @@ Future<bool> showDrawPointDialog(BuildContext context) {
     context: context,
     imageUrl: Assets.redeem,
     title: "Draw Point?",
-    content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin et orci in quam.",
+    content: "The Point was unrefundale!",
     optionsBuilder: () => {
       "Back": false,
       "Redeem": true,

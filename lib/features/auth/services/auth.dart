@@ -69,13 +69,13 @@ Future<String> getUserdata({required String id}) async {
 Future<String> ForgotPassword({required String email}) async {
   String url = Api.forgetpassword;
   var uri = Uri.parse(url);
-
+  print(url);
   var response = await http.post(uri,
       headers: {"Content-Type": "application/json"},
       body: json.encode({"email": email}));
 
   if (response.statusCode == 200 || response.statusCode == 201) {
-    return "Success";
+    return json.decode(response.body)["data"];
   } else {
     throw json.decode(response.body)["error"];
   }

@@ -164,16 +164,14 @@ Future<String> buyluckydraw(
   /*String url =
       "${Api.updatePartcipants}?lucky_draw_id=$luckydrawid&participants[]=$userid";*/
   var uri = Uri.parse(url);
-
   print(url);
-
   try {
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      return "sucess";
+      return json.decode(response.body)['data']['message'];
     } else {
-      return Future.error("Server Error");
+      throw json.decode(response.body)['data']["message"];
     }
   } catch (e) {
     return Future.error(e);

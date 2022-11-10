@@ -30,9 +30,9 @@ class ProductRedeem {
     return intvalue;
   }
 
-  Future<List> buyproduct(String id, String productid) async {
+  Future<dynamic> buyproduct(String id, String productid) async {
     String url = Api.purchaseproduct + '/' + id + '/' + productid;
-
+    print(url);
     try {
       var response = await http.get(Uri.parse(url));
 
@@ -48,7 +48,7 @@ class ProductRedeem {
 
   Future<List> showpurchasedproduct(String id) async {
     String url = Api.showpurchasedproduct + '/' + id;
-    //print(url);
+    print(url);
     try {
       var response = await http.get(Uri.parse(url));
 

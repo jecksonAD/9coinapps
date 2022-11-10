@@ -6,11 +6,14 @@ import 'package:ninecoin/features/home/ui/home_page.dart';
 import 'features/auth/ui/login_page.dart';
 
 Future<void> main() async {
-  runApp(const App());
+  runApp(const App(
+    page: 0,
+  ));
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final int? page;
+  const App({Key? key, this.page}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +21,9 @@ class App extends StatelessWidget {
       theme: AppTheme.standard,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: const HomePage(),
+      home: HomePage(
+        page: page,
+      ),
     );
   }
 }
