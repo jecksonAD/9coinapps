@@ -111,7 +111,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                             _newPasswordController.text)
                                     .then((value) async {
                                   if (await showNewPasswordResetDialog(
-                                      context, value)) {
+                                      context, true)) {
                                     Navigator.pop(context);
                                   }
                                 }).catchError((err) async {

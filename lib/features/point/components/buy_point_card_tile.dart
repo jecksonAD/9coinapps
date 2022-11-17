@@ -63,7 +63,7 @@ class BuyPointCardTile extends StatelessWidget {
                 TextSpan(
                   style: CoinTextStyle.title3Bold
                       .copyWith(color: CoinColors.dialogTextColor),
-                  text: pointDetail,
+                  text: "RM 35",
                 ),
               ],
             ),

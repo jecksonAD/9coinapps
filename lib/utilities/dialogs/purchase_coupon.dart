@@ -8,7 +8,7 @@ Future<bool> showPurchaseCouponDialog(BuildContext context) {
     context: context,
     imageUrl: Assets.purchaseCoupon,
     title: "Purchase Coupon?",
-    content: "Comfirm To Purchase The Coupon",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin et orci in quam.",
     optionsBuilder: () => {
       "Back": false,
       "Confirm": true,
