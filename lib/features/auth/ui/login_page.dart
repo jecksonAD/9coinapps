@@ -13,15 +13,11 @@ import '../../../utilities/dialogs/successful_login.dart';
 import '../services/auth.dart';
 
 class LoginPage extends StatefulWidget {
-  final bool isNewUser;
-  static Route route(bool isNewUser) {
-    return MaterialPageRoute(
-        builder: (context) => LoginPage(
-              isNewUser: isNewUser,
-            ));
+  static Route route() {
+    return MaterialPageRoute(builder: (context) => const LoginPage());
   }
 
-  const LoginPage({Key? key, required this.isNewUser}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -30,12 +26,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   void navigatePage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (!widget.isNewUser) {
-      if (prefs.containsKey('userId')) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
-      } else {}
+
+    if (prefs.containsKey('userId')) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     } else {}
   }
 
@@ -68,9 +63,9 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Image(
-                          height: 160,
-                          image: AssetImage("assets/logos/login-logo.png")),
-                      const SizedBox(height: 24),
+                          height: 200,
+                          image: AssetImage("assets/logos/9-com-1.png")),
+                      const SizedBox(height: 40),
                       TextFormField(
                         controller: email,
                         decoration: const InputDecoration(
@@ -98,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 30),
                       TextFormField(
+                        obscureText: true,
                         controller: password,
                         decoration: const InputDecoration(
                           filled: true,
@@ -174,10 +170,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const Center(
                         child: Text(
-                          "Color Ins Salon",
+                          "9 COM",
                           style: TextStyle(
                             fontFamily: 'Vollkorn SemiBold',
-                            color: CoinColors.blue26,
+                            color: Color.fromARGB(255, 248, 219, 0),
                             fontWeight: FontWeight.w400,
                             fontSize: 25,
                           ),

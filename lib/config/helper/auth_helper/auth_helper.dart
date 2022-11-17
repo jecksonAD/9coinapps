@@ -5,7 +5,7 @@ import '../../../model/auth/register/register_response.dart';
 
 void setUser(RegisterResponse user) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setInt("userId", user.success.id);
+  prefs.setInt("userId", user.success.id!);
   // prefs.setString("userId", user.!);
   // prefs.setInt("userId", user.success.id!);
 }
@@ -15,6 +15,12 @@ void setLoginUserInfo(LoginResponse user) async {
   prefs.setInt("userId", user.data.id);
   prefs.setString("jwt", user.accessToken);
   prefs.setString("jwtType", user.tokenType);
+  prefs.setString("data", json.encode(user.data));
+}
+
+void setUserInfo(GetUserData user) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
   prefs.setString("data", json.encode(user.data));
 }
 

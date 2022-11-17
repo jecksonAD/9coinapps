@@ -39,8 +39,23 @@ class RoundedDrawCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6.0),
                       child: Container(
-                        color: CoinColors.white,
-                        child: Image.network(imageUrl, fit: BoxFit.contain),
+                        color: CoinColors.black,
+                        child: Image.network(imageUrl, loadingBuilder:
+                            (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        }, errorBuilder: (BuildContext context,
+                            Object exception, StackTrace? stackTrace) {
+                          return Center(child: CircularProgressIndicator());
+                        }, fit: BoxFit.contain),
                       ),
                     ),
                   ),

@@ -3,10 +3,9 @@ import 'package:ninecoin/assets/assets.dart';
 import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/features/home/components/my_bottom_navigation_bar.dart';
 import 'package:ninecoin/typography/text_styles.dart';
-
-import '../../../config/helper/auth_helper/auth_helper.dart';
-import '../../../model/auth/login/login_response.dart';
-import '../../profile/services/profile_service.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import '../../../config/helper/common/get_user_info.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 
 class PointQrCode extends StatefulWidget {
   static Route<PointQrCode> route() {
@@ -20,15 +19,15 @@ class PointQrCode extends StatefulWidget {
 }
 
 class _PointQrCodeState extends State<PointQrCode> {
-  Data? userId;
+  int? userId;
 
   @override
   void initState() {
-    // getLocalUser().then((value) {
-    //   setState(() {
-    //     userId = value;
-    //   });
-    // });
+    getUserId().then((value) {
+      setState(() {
+        userId = value;
+      });
+    });
 
     super.initState();
   }
@@ -43,40 +42,25 @@ class _PointQrCodeState extends State<PointQrCode> {
           style: CoinTextStyle.title2Bold,
         ),
       ),
-      body: FutureBuilder(
-          future: localUser(),
-          builder: (context, AsyncSnapshot<Map?> snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              );
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 33),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: SizedBox(
-                      height: 300,
-                      child: Image.network(
-                        snapshot.data!['qrcode'],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    "ID : ${snapshot.data!['id']}",
-                    style: CoinTextStyle.title2Bold,
-                  )
-                ],
-              ),
-            );
-          }),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 33),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            QrImage(
+              data: userId.toString(),
+              version: QrVersions.auto,
+              size: 300.0,
+              backgroundColor: Colors.white,
+            ),
+            const SizedBox(height: 7),
+            Text(
+              userId == null ? "ID : " : "ID : $userId",
+              style: CoinTextStyle.title2Bold,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

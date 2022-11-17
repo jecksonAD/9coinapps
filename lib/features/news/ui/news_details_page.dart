@@ -68,18 +68,12 @@ class NewsDetailsPage extends StatelessWidget {
                             child: Image.network(
                                 news.data[index].extendedImages[0].img,
                                 fit: BoxFit.cover)),
-                        Text("https://www.youtube.com/watch?v=oDo4APfAKuw",
-                            style: CoinTextStyle.orangeTitle4
-                                .copyWith(height: 2.5)),
                       ],
                     )),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
-              Text("Lorem Consectetur Adipiscing Elit",
-                  style: CoinTextStyle.orangeTitle2),
-              const SizedBox(height: 6),
               Text(news.data[index].extendedDescriptions[0].desc,
                   style: CoinTextStyle.title3),
               Container(
@@ -96,7 +90,7 @@ class NewsDetailsPage extends StatelessWidget {
                 ),
               ),
               Text(
-                news.data[index].extendedDescriptions[0].desc,
+                news.data[index].extendedDescriptions[1].desc,
                 style: CoinTextStyle.title3,
               ),
             ],

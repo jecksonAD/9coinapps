@@ -1,22 +1,33 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
-Future<File> loadPdfFromNetwork(String url) async {
-  final response = await http.get(Uri.parse(url));
-  final bytes = response.bodyBytes;
-  return _storeFile(url, bytes);
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+class WebViewScreen extends StatefulWidget {
+  final String url;
+
+  const WebViewScreen({Key? key, required this.url}) : super(key: key);
+  @override
+  WebViewScreenState createState() => WebViewScreenState();
 }
 
-Future<File> _storeFile(String url, List<int> bytes) async {
-  final filename = basename(url);
-  final dir = await getApplicationDocumentsDirectory();
-  final file = File('${dir.path}/$filename');
-  await file.writeAsBytes(bytes, flush: true);
-  if (kDebugMode) {
-    print('$file');
+class WebViewScreenState extends State<WebViewScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Enable virtual display.
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
-  return file;
+
+  @override
+  Widget build(BuildContext context) {
+    return WebView(
+      initialUrl: widget.url,
+    );
+  }
+}
+
+launchUrl(String url, BuildContext context) {
+  Navigator.pushReplacement(context,
+      MaterialPageRoute(builder: (context) => WebViewScreen(url: url)));
 }

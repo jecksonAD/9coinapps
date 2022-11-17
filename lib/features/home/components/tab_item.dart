@@ -16,7 +16,7 @@ const Map<TabItem, String> tabName = {
 };
 
 Map<TabItem, Widget> activePage = {
-  TabItem.home: const HomeScreen(),
+  TabItem.home: HomeScreen(),
   TabItem.coupon: const CouponPage(),
   TabItem.point: const PointPage(),
   TabItem.luckDraw: const LuckydrawPage(),

@@ -8,7 +8,8 @@ Future<bool> showCreateAccountDialog(BuildContext context) {
     context: context,
     imageUrl: Assets.updatedDetails,
     title: "Create your your Account?",
-    content: "Lorem Ipsum is simply dummy text of the printing and types.",
+    content:
+        "Dear user . Please confirm that the information you filled in is correct",
     optionsBuilder: () => {
       "Cancel": false,
       "Confirm": true,

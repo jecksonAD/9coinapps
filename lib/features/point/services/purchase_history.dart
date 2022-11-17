@@ -1,15 +1,17 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:ninecoin/features/point/services/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../config/config.dart';
 import 'package:http/http.dart' as http;
-import '../../../model/transaction/get_history_transaction.dart';
 
-Future<GetHistoryTransaction> purchaseHistory() async {
+Future<String> purchaseHistoryPdf(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   String url = Api.getPdf;
-  print(url);
   var uri = Uri.parse(url);
+  print(prefs.getString("jwt"));
 
   var response = await http.get(
     uri,
@@ -19,7 +21,13 @@ Future<GetHistoryTransaction> purchaseHistory() async {
     },
   );
   if (response.statusCode == 200 || response.statusCode == 201) {
-    return GetHistoryTransaction.fromJson(json.decode(response.body));
+    print(response.statusCode);
+    String url = json.decode(response.body)['data']['pdf'];
+    print(url);
+    // ignore: use_build_context_synchronously
+    launchUrl(url, context);
+
+    return "Success";
   } else {
     throw json.decode(response.body)["error"];
   }

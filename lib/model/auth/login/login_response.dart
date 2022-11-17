@@ -7,8 +7,28 @@ import 'dart:convert';
 
 LoginResponse loginResponseFromJson(String str) =>
     LoginResponse.fromJson(json.decode(str));
+GetUserData getuserdataFromJson(String str) =>
+    GetUserData.fromJson(json.decode(str));
 
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
+String getuserdataResponseToJson(GetUserData data) =>
+    json.encode(data.toJson());
+
+class GetUserData {
+  GetUserData({
+    required this.data,
+  });
+
+  final Data data;
+
+  factory GetUserData.fromJson(Map<String, dynamic> json) => GetUserData(
+        data: Data.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "data": data.toJson(),
+      };
+}
 
 class LoginResponse {
   LoginResponse({
@@ -47,57 +67,54 @@ class Data {
     required this.id,
     required this.name,
     required this.email,
-    required this.emailVerifiedAt,
-    required this.phonenumber,
-    required this.address,
-    required this.about,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.avatarphotourl,
-    required this.currentTeamId,
-    required this.profilePhotoPath,
     required this.gender,
+    required this.address,
     required this.point,
     required this.qrcode,
-    required this.deviceId,
+    required this.avatarphotourl,
+    required this.phonenumber,
+    required this.emailVerifiedAt,
+    required this.twoFactorConfirmedAt,
+    required this.currentTeamId,
+    required this.profilePhotoPath,
+    required this.createdAt,
+    required this.updatedAt,
     required this.profilePhotoUrl,
   });
 
   final int id;
   final String name;
   final String email;
-  final dynamic emailVerifiedAt;
-  final String phonenumber;
+  final String gender;
   final String address;
-  final dynamic about;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final dynamic avatarphotourl;
+  final int point;
+  final String qrcode;
+  final String avatarphotourl;
+  final String phonenumber;
+  final dynamic emailVerifiedAt;
+  final dynamic twoFactorConfirmedAt;
   final dynamic currentTeamId;
   final dynamic profilePhotoPath;
-  final String gender;
-  final dynamic point;
-  final String qrcode;
-  final dynamic deviceId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
   final String profilePhotoUrl;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        phonenumber: json["phonenumber"],
-        address: json["address"],
-        about: json["about"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        avatarphotourl: json["avatarphotourl"],
-        currentTeamId: json["current_team_id"],
-        profilePhotoPath: json["profile_photo_path"],
         gender: json["gender"],
+        address: json["address"],
         point: json["point"],
         qrcode: json["qrcode"],
-        deviceId: json["device_id"],
+        avatarphotourl: json["avatarphotourl"],
+        phonenumber: json["phonenumber"],
+        emailVerifiedAt: json["email_verified_at"],
+        twoFactorConfirmedAt: json["two_factor_confirmed_at"],
+        currentTeamId: json["current_team_id"],
+        profilePhotoPath: json["profile_photo_path"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         profilePhotoUrl: json["profile_photo_url"],
       );
 
@@ -105,19 +122,18 @@ class Data {
         "id": id,
         "name": name,
         "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "phonenumber": phonenumber,
-        "address": address,
-        "about": about,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "avatarphotourl": avatarphotourl,
-        "current_team_id": currentTeamId,
-        "profile_photo_path": profilePhotoPath,
         "gender": gender,
+        "address": address,
         "point": point,
         "qrcode": qrcode,
-        "device_id": deviceId,
+        "avatarphotourl": avatarphotourl,
+        "phonenumber": phonenumber,
+        "email_verified_at": emailVerifiedAt,
+        "two_factor_confirmed_at": twoFactorConfirmedAt,
+        "current_team_id": currentTeamId,
+        "profile_photo_path": profilePhotoPath,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
         "profile_photo_url": profilePhotoUrl,
       };
 }

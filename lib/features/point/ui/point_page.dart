@@ -7,14 +7,32 @@ import 'package:ninecoin/features/home/components/circle_icon.dart';
 import 'package:ninecoin/features/notification/ui/notifications_page.dart';
 import 'package:ninecoin/features/point/ui/qr_code.dart';
 import 'package:ninecoin/typography/text_styles.dart';
+import '../../auth/services/auth.dart';
 import '../../profile/ui/profile_page.dart';
 import '../components/point_option_card.dart';
 import 'buy_point_package_page.dart';
 import 'point_history_page.dart';
 import 'redeemtions_page.dart';
+import '../../../config/helper/common/get_user_info.dart' as getid;
 
-class PointPage extends StatelessWidget {
+class PointPage extends StatefulWidget {
   const PointPage({Key? key}) : super(key: key);
+
+  @override
+  State<PointPage> createState() => _PointPageState();
+}
+
+class _PointPageState extends State<PointPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getid.getUserId().then((value) {
+      setState(() {
+        getUserdata(id: value.toString());
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,6 @@
 //
 //     final registerResponse = registerResponseFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 RegisterResponse registerResponseFromJson(String str) =>
@@ -30,43 +29,37 @@ class RegisterResponse {
 
 class Success {
   Success({
-    required this.name,
-    required this.email,
-    required this.gender,
-    required this.address,
-    required this.point,
-    required this.qrcode,
-    required this.phonenumber,
-    required this.id,
-    required this.updatedAt,
-    required this.createdAt,
-    required this.profilePhotoUrl,
+    this.name,
+    this.email,
+    this.gender,
+    this.address,
+    this.point,
+    this.qrcode,
+    this.avatarphotourl,
+    this.phonenumber,
+    this.id,
   });
 
-  final String name;
-  final String email;
-  final String gender;
-  final String address;
-  final int point;
-  final String qrcode;
-  final String phonenumber;
-  final int id;
-  final DateTime updatedAt;
-  final DateTime createdAt;
-  final String profilePhotoUrl;
+  final String? name;
+  final String? email;
+  final String? gender;
+  final String? address;
+  final String? point;
+  final String? qrcode;
+  final String? avatarphotourl;
+  final String? phonenumber;
+  final int? id;
 
   factory Success.fromJson(Map<String, dynamic> json) => Success(
         name: json["name"],
         email: json["email"],
         gender: json["gender"],
         address: json["address"],
-        point: json["point"],
+        point: json["point"].toString(),
         qrcode: json["qrcode"],
+        avatarphotourl: json["avatarphotourl"],
         phonenumber: json["phonenumber"],
         id: json["id"],
-        updatedAt: DateTime.parse(json["updated_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        profilePhotoUrl: json["profile_photo_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,10 +69,8 @@ class Success {
         "address": address,
         "point": point,
         "qrcode": qrcode,
+        "avatarphotourl": avatarphotourl,
         "phonenumber": phonenumber,
         "id": id,
-        "updated_at": updatedAt.toIso8601String(),
-        "created_at": createdAt.toIso8601String(),
-        "profile_photo_url": profilePhotoUrl,
       };
 }

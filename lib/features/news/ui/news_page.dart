@@ -34,7 +34,8 @@ class NewsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return RoundedNewsCard(
                 onTap: () {
-                  Navigator.push(context, NewsDetailsPage.route(news: news,index: index));
+                  Navigator.push(
+                      context, NewsDetailsPage.route(news: news, index: index));
                 },
                 imageUrl: news.data[index].photo,
                 date: news.data[index].date,

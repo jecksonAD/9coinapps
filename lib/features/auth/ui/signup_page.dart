@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/features/auth/ui/login_page.dart';
@@ -8,12 +7,8 @@ import 'package:ninecoin/model/auth/register/user_register.dart';
 import 'package:ninecoin/typography/text_styles.dart';
 import 'package:ninecoin/utilities/dialogs/create_account.dart';
 import 'package:ninecoin/utilities/dialogs/successful_create.dart';
-import 'package:ninecoin/widgets/form_messages.dart';
 import '../../../utilities/dialogs/error_dialoge.dart';
 import '../services/auth.dart';
-
-String? gender;
-String? state;
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -27,50 +22,23 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String deviceTokenToSendPushNotification = "";
-
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController contactNumber = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController city = TextEditingController();
-  //TextEditingController state = TextEditingController();
+  TextEditingController state = TextEditingController();
   TextEditingController postalCode = TextEditingController();
-  TextEditingController country = TextEditingController(text: 'Malaysia');
+  TextEditingController country = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController checkPassword = TextEditingController();
+  String? gender;
 
   final _formKey = GlobalKey<FormState>();
-  final _emailFormFieldKey = GlobalKey<FormFieldState>();
-
-  String? emails;
-
   bool isLoading = false;
-
-  void initState() {
-    FirebaseMessaging.onMessage.listen((message) {
-      print('Firebase');
-      if (message.notification != null) {
-        print(message.notification!.title);
-        print(message.notification!.body);
-        print("message.data11 ${message.data}");
-      }
-    });
-
-    super.initState();
-  }
-
-  Future<void> getDeviceTokenToSendNotification() async {
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    final token = await _fcm.getToken();
-    deviceTokenToSendPushNotification = token.toString();
-    print("Token Value $deviceTokenToSendPushNotification");
-  }
 
   @override
   Widget build(BuildContext context) {
-    // getDeviceTokenToSendNotification();
-
     Size size = MediaQuery.of(context).size;
     return Container(
       color: CoinColors.fullBlack,
@@ -111,36 +79,15 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 21.5),
                 TextFormField(
-                  key: _emailFormFieldKey,
-                  onSaved: (newEmail) {
-                    setState(() {
-                      emails = newEmail;
-                    });
-                  },
                   controller: email,
-                  onChanged: (newEmail) {
-                    _emailFormFieldKey.currentState!.validate();
-                  },
-                  keyboardType: TextInputType.emailAddress,
-
                   decoration: const InputDecoration(hintText: "Email"),
-                  validator: (newEmail) {
-                    if (newEmail!.isEmpty) {
-                      return kEmailNullError;
-                    } else if (!emailValidatorRegExp.hasMatch(newEmail)) {
-                      return kInvalidEmailError;
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Email required";
+                    } else {
+                      return null;
                     }
-                    return null;
                   },
-
-                  // validator: (val) {
-
-                  //   if (val!.isEmpty) {
-                  //     return "Email required";
-                  //   } else {
-                  //     return null;
-                  //   }
-                  // },
                 ),
                 const SizedBox(height: 21.5),
                 TextFormField(
@@ -162,9 +109,6 @@ class _SignupPageState extends State<SignupPage> {
                 TextFormField(
                   controller: address,
                   decoration: const InputDecoration(hintText: "Address"),
-                  onChanged: (value) {
-                    //print(gender);
-                  },
                   validator: (val) {
                     if (val!.isEmpty) {
                       return "Address required";
@@ -190,25 +134,21 @@ class _SignupPageState extends State<SignupPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 18),
-                    _StateInput(
-                      state: state,
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: size.width / 2.35,
+                      child: TextFormField(
+                        controller: state,
+                        decoration: const InputDecoration(hintText: "State"),
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return "State required";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
                     ),
-
-                    // SizedBox(
-                    //   width: size.width / 2.35,
-                    //   child: TextFormField(
-                    //     controller: state,
-                    //     decoration: const InputDecoration(hintText: "State"),
-                    //     validator: (val) {
-                    //       if (val!.isEmpty) {
-                    //         return "State required";
-                    //       } else {
-                    //         return null;
-                    //       }
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 21.5),
@@ -229,12 +169,11 @@ class _SignupPageState extends State<SignupPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 18),
+                    const SizedBox(width: 8),
                     SizedBox(
-                      width: size.width / 2.36,
+                      width: size.width / 2.25,
                       child: TextFormField(
                         controller: country,
-                        // initialValue: 'Malaysia',
                         decoration: const InputDecoration(hintText: "Country"),
                         validator: (val) {
                           if (val!.isEmpty) {
@@ -279,50 +218,41 @@ class _SignupPageState extends State<SignupPage> {
                 const SizedBox(height: 21.5),
                 ElevatedButton(
                   onPressed: () async {
-                    getDeviceTokenToSendNotification();
                     if (_formKey.currentState!.validate()) {
                       if (await showCreateAccountDialog(context)) {
                         setState(() {
                           isLoading = true;
                         });
-                        final bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(email.text);
-                        if (emailValid) {
-                          UserRegister user = UserRegister(
-                              name: username.text,
-                              email: email.text,
-                              gender: gender,
-                              address:
-                                  "${address.text} ${city.text} $state ${postalCode.text} ${country.text}",
-                              point: "",
-                              qrcode: "",
-                              avatarphotourl: "",
-                              phonenumber: contactNumber.text,
-                              password: password.text,
-                              confirmPassword: checkPassword.text);
+                        UserRegister user = UserRegister(
+                            name: username.text,
+                            email: email.text,
+                            gender: "male",
+                            address:
+                                "${address.text} ${city.text} ${state.text} ${postalCode.text} ${country.text}",
+                            point: "0",
+                            qrcode: "0",
+                            avatarphotourl: "0",
+                            phonenumber: contactNumber.text,
+                            password: password.text,
+                            confirmPassword: checkPassword.text);
 
-                          registerUser(registerUser: user).then((value) async {
-                            if (await showSuccessfulCreateAccountDialog(
-                                context)) {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              Navigator.push(context, LoginPage.route(true));
-                            }
-                          }).catchError((err) async {
+                        registerUser(registerUser: user).then((value) async {
+                          if (await showSuccessfulCreateAccountDialog(
+                              context)) {
                             setState(() {
                               isLoading = false;
                             });
-                            await showErrorDialog(context, "Error", "$err");
-                          });
-                        } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const LoginPage()));
+                          }
+                        }).catchError((err) async {
                           setState(() {
                             isLoading = false;
                           });
-                          await showErrorDialog(
-                              context, "Error", "Email is not valid");
-                        }
+                          await showErrorDialog(context, "Error", "$err");
+                        });
                       }
                     }
                   },
@@ -342,7 +272,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context, LoginPage.route(false));
+                        Navigator.push(context, LoginPage.route());
                       },
                       child: Text("Sign In", style: CoinTextStyle.orangeTitle3),
                     ),
@@ -513,7 +443,6 @@ class _InputGenderState extends State<_InputGender> {
           onChanged: (String? newValue) {
             setState(() {
               widget.gender = newValue;
-              gender = widget.gender;
             });
           },
           items: List.generate(
@@ -528,79 +457,6 @@ class _InputGenderState extends State<_InputGender> {
     );
   }
 }
-
-// State DropDown Button
-class _StateInput extends StatefulWidget {
-  String? state;
-  _StateInput({this.state, Key? key}) : super(key: key);
-
-  @override
-  State<_StateInput> createState() => _StateInputState();
-}
-
-class _StateInputState extends State<_StateInput> {
-  List<String> states = [
-    "Johor",
-    "Kedah",
-    "Kelantan",
-    "Malacca",
-    "Negeri Sembilan",
-    "Pahang",
-    "Penang",
-    "Perak",
-    "Perlis",
-    "Sabah",
-    "Sarawak",
-    "Selangor",
-    "Terengganu"
-  ];
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      height: 48,
-      width: size.width / 2.36,
-      decoration: BoxDecoration(
-          color: CoinColors.black12,
-          border: Border.all(color: CoinColors.black12),
-          borderRadius: BorderRadius.circular(8.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton(
-          dropdownColor: CoinColors.black26,
-          borderRadius: BorderRadius.circular(12),
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: Colors.grey[700],
-          ),
-          value: widget.state,
-          hint: Text("Select State",
-              style: CoinTextStyle.title3.copyWith(color: CoinColors.black54)),
-          isExpanded: true,
-          iconSize: 36,
-          underline: const SizedBox(),
-          onChanged: (String? newValue) {
-            setState(() {
-              widget.state = newValue;
-              state = widget.state;
-              //state = widget.state;
-
-              //state = widget.state;
-            });
-          },
-          items: List.generate(
-            states.length,
-            (index) {
-              return DropdownMenuItem(
-                  value: states[index], child: Text(states[index]));
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-// State DropDown Button End
 
 class _TermsAndCondition extends StatefulWidget {
   const _TermsAndCondition({
@@ -647,7 +503,7 @@ class _TermsAndConditionState extends State<_TermsAndCondition> {
                 style: CoinTextStyle.title3,
                 children: [
                   TextSpan(
-                      text: " Term & Conditions.",
+                      text: " Term & privacy policy.",
                       style: CoinTextStyle.orangeTitle3)
                 ]),
           ),

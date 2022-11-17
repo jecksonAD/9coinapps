@@ -1,5 +1,5 @@
 abstract class Assets {
-  static String appLogo = "assets/logos/page-logo.png";
+  static String appLogo = "assets/logos/9-com-2.png";
   static String profileIcon = "assets/icons/profile.png";
   static String slider = "assets/pics/slider.jpg";
   static String salon = "assets/icons/salon.png";
@@ -73,6 +73,4 @@ abstract class Assets {
   static String paymentSuccessful = "assets/icons/payment-successful.png";
   static String luckyDrawPopUp = "assets/pics/lucky-draw-pop-up.png";
   static String snack = "assets/pics/snack.jpg";
-
-  
 }

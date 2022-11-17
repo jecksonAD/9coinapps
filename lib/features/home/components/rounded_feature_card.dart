@@ -27,35 +27,52 @@ class RoundedFeatureCard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(8.0),
             width: 172,
-            height: 226,
+            height: 200,
             alignment: Alignment.topCenter,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.0),
               color: CoinColors.black,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(6.0),
-                            topRight: Radius.circular(6.0),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(6.0),
+                              topRight: Radius.circular(6.0),
+                            ),
+                            child: Image.network(imageUrl, fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            }, errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                              return Center(child: CircularProgressIndicator());
+                            }),
                           ),
-                          child: Image.asset(imageUrl, fit: BoxFit.cover),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4.0),
-                Expanded(
-                  child: Column(
+                  const SizedBox(height: 4.0),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -89,9 +106,9 @@ class RoundedFeatureCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 6.0),
-              ],
+                  const SizedBox(height: 6.0),
+                ],
+              ),
             ),
           ),
         ],
