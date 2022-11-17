@@ -7,9 +7,8 @@ Future<bool> showSuccessfulCreateAccountDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
     imageUrl: Assets.updated,
-    title: "Account Create",
-    content:
-        "Dear user your account has been created successfully ,sign in to start using app",
+    title: "Create Successful!",
+    content: "",
     optionsBuilder: () => {
       "Back": true,
     },

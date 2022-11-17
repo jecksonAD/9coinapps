@@ -1,52 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:ninecoin/colors/colors.dart';
-import 'package:ninecoin/features/point/api/pointpackage.dart';
 import 'package:ninecoin/features/point/ui/package_payment_page.dart';
 import 'package:ninecoin/typography/text_styles.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../../config/config.dart';
-
-class PackageBuyPage extends StatefulWidget {
-  static route(
-      {required pointpackageresponse pointpackage, required int index}) {
-    return MaterialPageRoute(builder: (context) {
-      return PackageBuyPage(pointpackage: pointpackage, index: index);
-    });
+class PackageBuyPage extends StatelessWidget {
+  static route() {
+    return MaterialPageRoute(builder: (_) => const PackageBuyPage());
   }
 
-  final pointpackageresponse pointpackage;
-  final int index;
-
-  const PackageBuyPage(
-      {Key? key, required this.pointpackage, required this.index})
-      : super(key: key);
-
-  @override
-  State<PackageBuyPage> createState() => _PackageBuyPageState();
-}
-
-class _PackageBuyPageState extends State<PackageBuyPage> {
-  late String Userid = "";
-  pointpackage getdata = new pointpackage();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getdata.getUserId().then((value) {
-      setState(() {
-        Userid = value.toString();
-        print(Userid);
-      });
-    });
-  }
+  const PackageBuyPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.pointpackage.data[widget.index].name),
+        title: const Text("Package 2"),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 36),
@@ -57,19 +26,18 @@ class _PackageBuyPageState extends State<PackageBuyPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.pointpackage.data[widget.index].name,
-                      style: CoinTextStyle.title3),
+                  Text("Package 2", style: CoinTextStyle.title3),
                   const SizedBox(height: 3.0),
-                  Text(widget.pointpackage.data[widget.index].description,
-                      style: CoinTextStyle.title4),
+                  Text('''Mauris non ligula tempus, lacinia velit a, aliquam
+metus. Nulla at sapien scelerisque, imperdiet ex non,
+venenatis mi.''', style: CoinTextStyle.title4),
                   const SizedBox(height: 18.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RichText(
                         text: TextSpan(
-                          text: widget.pointpackage.data[widget.index].point
-                              .toString(),
+                          text: "20",
                           style:
                               CoinTextStyle.orangeTitle1.copyWith(fontSize: 26),
                           children: [
@@ -86,8 +54,7 @@ class _PackageBuyPageState extends State<PackageBuyPage> {
                           style: CoinTextStyle.title2,
                           children: [
                             TextSpan(
-                              text: "RM " +
-                                  widget.pointpackage.data[widget.index].myr,
+                              text: " RM 65",
                               style: CoinTextStyle.orangeTitle1
                                   .copyWith(fontSize: 26),
                             ),
@@ -127,17 +94,7 @@ class _PackageBuyPageState extends State<PackageBuyPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                String url = Api.buypointpackage +
-                    "/" +
-                    Userid.toString() +
-                    "/" +
-                    widget.pointpackage.data[widget.index].id.toString();
-                //   const url = 'https://www.google.com';
-                if (!await launchUrl(
-                  Uri.parse(url),
-                  mode: LaunchMode.externalApplication,
-                )) {}
-                throw 'Could not launch $url';
+                Navigator.push(context, PackagePaymentPage.route());
               },
               child: const Text("Pay"),
             ),
@@ -145,14 +102,5 @@ class _PackageBuyPageState extends State<PackageBuyPage> {
         ),
       ),
     );
-  }
-}
-
-Future<void> _launchInBrowser(Uri url) async {
-  if (!await launchUrl(
-    url,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw 'Could not launch $url';
   }
 }

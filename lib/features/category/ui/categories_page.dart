@@ -4,7 +4,6 @@ import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/features/category/components/cirlce_category_icon.dart';
 import 'package:ninecoin/features/home/components/my_bottom_navigation_bar.dart';
 import 'package:ninecoin/typography/text_styles.dart';
-import '../../home/api/category.dart';
 import 'category_details_page.dart';
 
 class CategoryListPage extends StatefulWidget {
@@ -20,7 +19,6 @@ class CategoryListPage extends StatefulWidget {
 
 class _CategoryListPageState extends State<CategoryListPage> {
   @override
-  Category getdata = new Category();
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -56,37 +54,83 @@ class _CategoryListPageState extends State<CategoryListPage> {
             ),
           ),
         ),
-        body: FutureBuilder<List>(
-            future: getdata.getcategory(),
-            builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                return GridView(
-                  padding: const EdgeInsets.only(top: 26),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 0.9,
-                  ),
-                  children: <Widget>[
-                    for (int i = 0; i < snapshot.data!.length; i++)
-                      CirlceCategoryIcon(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CategoryDetailsPage(
-                                  snapshot.data![i]['name'])));
-                        },
-                        imageurl: snapshot.data![i]['imageurl'],
-                        imageUrl: Assets.salon,
-                        color: CoinColors.transparent,
-                        label: snapshot.data![i]['name'],
-                      ),
-                  ],
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            })),
+        body: GridView(
+          padding: const EdgeInsets.only(top: 26),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 0.9,
+          ),
+          children: [
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.salon,
+              color: CoinColors.green,
+              label: "A'Salon",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.bag,
+              color: CoinColors.pink,
+              label: "Bag",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.beautyIcon,
+              color: CoinColors.red12,
+              label: "Beauty",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {
+                Navigator.push(context, CategoryDetailsPage.route());
+              },
+              imageUrl: Assets.electronic,
+              color: CoinColors.orange12,
+              label: "Electronic",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.fashion,
+              color: CoinColors.blue,
+              label: "Fashion",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.gaming,
+              color: CoinColors.red,
+              label: "Gaming",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.groceries,
+              color: CoinColors.yellow,
+              label: "Groceries",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.pet,
+              color: CoinColors.indigo,
+              label: "Pets",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.sports,
+              color: CoinColors.blueAccent,
+              label: "Sports",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.voucher,
+              color: CoinColors.teal,
+              label: "Vouchers",
+            ),
+            CirlceCategoryIcon(
+              onTap: () {},
+              imageUrl: Assets.watch,
+              color: CoinColors.purple,
+              label: "Watches",
+            ),
+          ],
+        ),
       ),
     );
   }

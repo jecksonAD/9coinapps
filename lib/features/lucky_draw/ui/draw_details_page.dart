@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ninecoin/assets/assets.dart';
 import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/features/home/components/my_bottom_navigation_bar.dart';
-import 'package:ninecoin/main.dart';
 import 'package:ninecoin/typography/text_styles.dart';
 import 'package:ninecoin/utilities/dialogs/draw_point_dialog.dart';
 import 'package:ninecoin/utilities/dialogs/drawn_successful_dialog.dart';
@@ -11,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../model/luckyDraw/lucky_draw_response.dart';
 import '../services/lucky_draw.dart';
-import 'luckydraw_page.dart';
 
 class DrawDetailsPage extends StatefulWidget {
   static route({required LuckyDrawResponse luckyDraw, required int index}) {
@@ -37,7 +35,7 @@ class DrawDetailsPage extends StatefulWidget {
 class _DrawDetailsPageState extends State<DrawDetailsPage> {
   int? selectedNoOfPoints;
   double totalAmount = 0;
-  int amountofpurchase = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +63,8 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(widget.luckyDrawData.data[widget.index]
-                        .prizeImage), //luckyDrawData.data[index].prizeImage
+                    Image.asset(
+                        Assets.iphone), //luckyDrawData.data[index].prizeImage
                     const SizedBox(height: 8.0),
                     Text(widget.luckyDrawData.data[widget.index].name,
                         style: CoinTextStyle.orangeTitle2),
@@ -91,10 +89,7 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                             style: CoinTextStyle.title3
                                 .copyWith(color: CoinColors.black54)),
                         const SizedBox(width: 24.0),
-                        Text(
-                            widget.luckyDrawData.data[widget.index].totalcount
-                                .toString(),
-                            style: CoinTextStyle.orangeTitle3),
+                        Text("236", style: CoinTextStyle.orangeTitle3),
                       ],
                     ),
                     const SizedBox(height: 24.0),
@@ -110,8 +105,7 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                     const SizedBox(height: 10.0),
                     Text("Pool Period", style: CoinTextStyle.orangeTitle3),
                     const SizedBox(height: 2.0),
-                    Text(widget.luckyDrawData.data[widget.index].SEdate,
-                        style: CoinTextStyle.title3),
+                    Text("1/5/2022 - 31/5/2022", style: CoinTextStyle.title3),
                     const SizedBox(height: 10.0),
                     const Divider(),
                     const SizedBox(height: 10.0),
@@ -179,8 +173,6 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                                   totalAmount = widget.luckyDrawData
                                           .data[widget.index].pointsNeeded *
                                       val.toDouble();
-
-                                  amountofpurchase = val;
                                 });
                               },
                             ),
@@ -203,24 +195,6 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24.0),
-                    SizedBox(
-                      width: 200,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("User Redeem Amount",
-                              style: CoinTextStyle.title3
-                                  .copyWith(color: CoinColors.black54)),
-                          Text(
-                              widget.luckyDrawData.data[widget.index].count
-                                  .toString(),
-                              style: CoinTextStyle.title3,
-                              textAlign: TextAlign.start),
-                        ],
-                      ),
-                    ),
-
                     const SizedBox(height: 6.0),
                     const Divider(),
                     const SizedBox(height: 6.0),
@@ -231,34 +205,21 @@ class _DrawDetailsPageState extends State<DrawDetailsPage> {
             ElevatedButton(
                 onPressed: () async {
                   if (await showDrawPointDialog(context)) {
+                    await showDrawnSuccessfulDialog(context);
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    buyluckydraw(
-                            prefs.getInt('userId').toString(),
-                            widget.luckyDrawData.data[widget.index].id
-                                .toString(),
-                            amountofpurchase)
-                        .then((value) async {
-                      await showDrawnSuccessfulDialog(context, value)
-                          .then((value) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => App(
-                                  page: 3,
-                                )));
-                      });
-                    });
-
-                    /* putLuckyDraw(
+                  
+                    putLuckyDraw(
                             widget.luckyDrawData.data[widget.index].id
                                 .toString(),
                             prefs.getInt('userId').toString())
                         .then((value) {
                       print(value);
                       Navigator.pop(context);
-                    }).catchError((err) {});*/
+                    }).catchError((err) {});
                   }
                 },
-                child: const Text("Buy"))
+                child: const Text("Draw"))
           ],
         ),
       ),

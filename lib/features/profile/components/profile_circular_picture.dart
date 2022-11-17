@@ -46,8 +46,7 @@ class ProfileCircularPicture extends StatelessWidget {
                       child: const Icon(Icons.camera_alt,
                           color: CoinColors.white, size: 26),
                     )
-                  : Image.network(imageUrl ?? Assets.profile,
-                      fit: BoxFit.cover)),
+                  : Image.asset(imageUrl ?? Assets.profile, fit: BoxFit.cover)),
         ),
       ),
     );

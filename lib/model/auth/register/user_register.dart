@@ -2,39 +2,42 @@
 //
 //     final userRegister = userRegisterFromMap(jsonString);
 
+
 import 'dart:convert';
 
-UserRegister userRegisterFromMap(String str) =>
-    UserRegister.fromMap(json.decode(str));
+UserRegister userRegisterFromMap(String str) => UserRegister.fromMap(json.decode(str));
 
 String userRegisterToMap(UserRegister data) => json.encode(data.toMap());
 
 class UserRegister {
-  UserRegister({
-    this.name,
-    this.email,
-    this.gender,
-    this.address,
-    this.point,
-    this.qrcode,
-    this.avatarphotourl,
-    this.phonenumber,
-    this.password,
-    this.confirmPassword,
-  });
+    UserRegister({
+        this.name,
+        this.email,
+        this.gender,
+        this.address,
+        this.point,
+        this.qrcode,
+        this.avatarphotourl,
+        this.phonenumber,
+        this.password,
+        this.confirmPassword,
+         this.fcm,
+      
+    });
 
-  final String? name;
-  final String? email;
-  final String? gender;
-  final String? address;
-  final String? point;
-  final String? qrcode;
-  final String? avatarphotourl;
-  final String? phonenumber;
-  final String? password;
-  final String? confirmPassword;
+    final String? name;
+    final String? fcm;
+    final String? email;
+    final String? gender;
+    final String? address;
+    final String? point;
+    final String? qrcode;
+    final String? avatarphotourl;
+    final String? phonenumber;
+    final String? password;
+    final String? confirmPassword;
 
-  factory UserRegister.fromMap(Map<String, dynamic> json) => UserRegister(
+    factory UserRegister.fromMap(Map<String, dynamic> json) => UserRegister(
         name: json["name"],
         email: json["email"],
         gender: json["gender"],
@@ -45,9 +48,10 @@ class UserRegister {
         phonenumber: json["phonenumber"],
         password: json["password"],
         confirmPassword: json["confirm_password"],
-      );
 
-  Map<String, dynamic> toMap() => {
+    );
+
+    Map<String, dynamic> toMap() => {
         "name": name,
         "email": email,
         "gender": gender,
@@ -56,7 +60,5 @@ class UserRegister {
         "phonenumber": phonenumber,
         "password": password,
         "confirm_password": confirmPassword,
-        "qrcode": qrcode,
-        "avatarphotourl": avatarphotourl,
-      };
+        "device_id": fcm    };
 }

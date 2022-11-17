@@ -5,21 +5,13 @@ import 'package:ninecoin/typography/text_styles.dart';
 
 class RedeemptionsCard extends StatelessWidget {
   final String title;
-  final String name;
-  final String address;
-  final String point;
   final Color buttonColor;
   final String buttonText;
   final String imageUrl;
-  final String redeemstatus;
   final Function()? onTap;
   const RedeemptionsCard({
     Key? key,
-    required this.point,
-    required this.address,
-    required this.name,
     required this.title,
-    required this.redeemstatus,
     this.buttonText = "Redeem",
     this.buttonColor = CoinColors.dialogTextColor,
     this.onTap,
@@ -45,26 +37,7 @@ class RedeemptionsCard extends StatelessWidget {
                 topLeft: Radius.circular(10.0),
                 topRight: Radius.circular(10.0),
               ),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  );
-                },
-                errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Center(child: CircularProgressIndicator());
-                },
-              ),
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
             ),
           ),
           Expanded(
@@ -78,15 +51,15 @@ class RedeemptionsCard extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Image.asset(Assets.shop, height: 14, width: 14),
                     const SizedBox(width: 12),
-                    Text(title, style: CoinTextStyle.title4)
+                    Text("J'Qroue", style: CoinTextStyle.title4)
                   ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(Assets.address, height: 14, width: 14),
                       const SizedBox(width: 12),
-                      Flexible(
-                          child: Text(address, style: CoinTextStyle.title4)),
+                      Text("2a, Jalan Klebang Jaya 3, 75200 Melaka.",
+                          style: CoinTextStyle.title4),
                     ],
                   ),
                   Row(
@@ -94,7 +67,7 @@ class RedeemptionsCard extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
-                          text: point,
+                          text: "25",
                           style:
                               CoinTextStyle.orangeTitle1.copyWith(fontSize: 26),
                           children: [
