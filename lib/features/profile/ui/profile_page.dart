@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("ID:${snapshot.data!['id']}",
+                                Text("ID:${snapshot.data!['qrcode']}",
                                     style: CoinTextStyle.title4
                                         .copyWith(color: CoinColors.orange)),
                                 Text("${snapshot.data!['name']}",
@@ -145,7 +145,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
+                            builder: (context) => const LoginPage(
+                                  isNewUser: false,
+                                )),
                         (route) => false);
                   }
                 }

@@ -3,13 +3,13 @@ import 'package:ninecoin/assets/assets.dart';
 
 import 'generic_dialog.dart';
 
-Future<bool> showSuccessfulCouponDialog(
-    BuildContext context, String purchasecondition) {
+Future<bool> showSuccessfulCouponDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
     imageUrl: Assets.updated,
     title: "Purchase Successful!",
-    content: purchasecondition,
+    content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin et orci in quam.",
     optionsBuilder: () => {
       "Back": false,
     },

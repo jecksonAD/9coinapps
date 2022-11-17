@@ -4,107 +4,75 @@ import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/features/category/ui/product_details_page.dart';
 import 'package:ninecoin/features/home/components/my_bottom_navigation_bar.dart';
 import 'package:ninecoin/typography/text_styles.dart';
-import '../api/merchant.dart';
 
-class CategoryDetailsPage extends StatefulWidget {
-  final String category;
-
-  const CategoryDetailsPage(this.category);
-
-  @override
-  State<CategoryDetailsPage> createState() => _CategoryDetailsPageState();
-}
-
-class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
-  Merchant getdata = new Merchant();
-  @override
-  void initState() {
-    super.initState();
-    //getdata.getUserId().then((value) {
-    setState(() {
-      //  Userid = value.toString();
-      //  print(Userid);
-    });
+class CategoryDetailsPage extends StatelessWidget {
+  static Route route() {
+    return MaterialPageRoute(builder: (context) => const CategoryDetailsPage());
   }
-  //);
-  //futuredata = getString("220001");
-  // futureAlbum = fetchAlbum();
 
+  const CategoryDetailsPage({Key? key}) : super(key: key);
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: CoinColors.black,
-        appBar: AppBar(
-          backgroundColor: CoinColors.black12,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            widget.category,
-            style: CoinTextStyle.title2Bold,
-          ),
+    return Scaffold(
+      backgroundColor: CoinColors.black,
+      appBar: AppBar(
+        backgroundColor: CoinColors.black12,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Electronic",
+          style: CoinTextStyle.title2Bold,
         ),
-        body: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 10,
-                  color: CoinColors.black12,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 70,
+              color: CoinColors.black12,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          fillColor: CoinColors.black,
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: CoinColors.black26,
+                          ),
+                          hintText: "Search",
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                FutureBuilder<List>(
-                    future: getdata.getmerchantlist(widget.category),
-                    builder: ((context, snapshot) {
-                      if (snapshot.hasData) {
-                        print(snapshot.data!.length);
-                        if (snapshot.data!.length <= 0) {
-                          return Center(
-                            child: Text("No Merchant Register"),
-                          );
-                        } else {
-                          return Column(
-                            children: <Widget>[
-                              for (int i = 0; i < snapshot.data!.length; i++)
-                                RoundedElectricCard(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductDetailsPage(
-                                                    snapshot.data![i]['id'],
-                                                    snapshot.data![i]['name'],
-                                                    snapshot.data![i]['image'],
-                                                    snapshot.data![i]
-                                                        ['totalproductimage'],
-                                                    snapshot.data![i]
-                                                        ['randomnumber'])));
-                                  },
-                                  imageUrl: snapshot.data![i]['image'],
-                                  title: snapshot.data![i]['name'],
-                                  pNumber: snapshot.data![i]['phone'],
-                                  location: snapshot.data![i]['address'],
-                                ),
-                            ],
-                          );
-                        }
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    }))
-              ],
+              ),
             ),
-          ),
+            const SizedBox(height: 15),
+            RoundedElectricCard(
+              onTap: () {},
+              imageUrl: Assets.television1,
+              title: "Sonyod SDN. BHD.",
+              pNumber: "010 - 559 6689",
+              location: "No. 12, Jalan Bukit Baru, 75150 Melaka.",
+            ),
+            RoundedElectricCard(
+              onTap: () {
+                Navigator.push(context, ProductDetailsPage.route());
+              },
+              imageUrl: Assets.earphone,
+              title: "Yonqed SDN. BHD.",
+              pNumber: "012 - 683 2269",
+              location: "2a, Jalan Klebang Jaya 3, 75200 Melaka.",
+            ),
+          ],
         ),
       ),
     );
@@ -155,7 +123,7 @@ class RoundedElectricCard extends StatelessWidget {
                             topLeft: Radius.circular(6.0),
                             topRight: Radius.circular(6.0),
                           ),
-                          child: Image.network(
+                          child: Image.asset(
                             imageUrl,
                             fit: BoxFit.cover,
                             height: 120,

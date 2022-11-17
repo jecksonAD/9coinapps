@@ -39,13 +39,24 @@ class _RedeemtionsPageState extends State<RedeemtionsPage>
           ),
           body: Column(
             children: [
+              Container(
+                color: CoinColors.mediumBlack,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: const TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: "Search",
+                  ),
+                ),
+              ),
               TabBar(
                 unselectedLabelColor: CoinColors.black54,
                 labelColor: CoinColors.orange,
                 labelStyle: CoinTextStyle.orangeTitle3,
                 tabs: const [
                   Tab(text: 'Redeem'),
-                  Tab(text: 'Use'),
+                  Tab(text: 'Redeemded'),
                 ],
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
