@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:ninecoin/features/point/api/transaction.dart';
-import 'package:ninecoin/features/point/components/purchase_tile.dart';
+import 'dart:io';
 
-import '../../../config/helper/common/get_user_info.dart' as getid;
+import 'package:flutter/material.dart';
+import 'package:ninecoin/features/point/components/purchase_tile.dart';
+import '../../../model/transaction/get_history_transaction.dart';
+import '../components/pdf_view.dart';
+import '../services/purchase_history.dart';
+import '../services/url_launcher.dart';
 
 class PurchaseHistoryPage extends StatefulWidget {
   const PurchaseHistoryPage({Key? key}) : super(key: key);
@@ -13,49 +16,47 @@ class PurchaseHistoryPage extends StatefulWidget {
 
 class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
   @override
-  int? userId;
-
-  @override
-  void initState() {
-    getid.getUserId().then((value) {
-      setState(() {
-        userId = value;
-      });
-    });
-
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
-    transaction couponlist = transaction();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-      child: FutureBuilder<List>(
-        future: couponlist.gettransactionlist(userId.toString()),
+      child: FutureBuilder<GetHistoryTransaction>(
+        future: purchaseHistory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: snapshot.data?.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      PurchaseTile(
-                        date: snapshot.data![index]['date']
-                            .toString()
-                            .substring(0, 10),
-                        title: "Yonqed SDN. BHD.",
-                        subtitle: "- Earphone 6pro",
-                        point: snapshot.data![index]['point'],
-                      ),
-                    ],
-                  );
-                });
+              itemCount: snapshot.data!.data.transaction.length,
+              itemBuilder: (context, index) {
+                return PurchaseTile(
+                  date:
+                      "${snapshot.data!.data.transaction[index].date.year}-${snapshot.data!.data.transaction[index].date.month}-${snapshot.data!.data.transaction[index].date.day}",
+                  title: "Apple store",
+                  subtitle: "A phone 16 Pro",
+                  point: snapshot.data!.data.transaction[index].point,
+                  onTap: () async {
+                    String url = snapshot.data!.data.transaction[index].pdf;
+                    final file = await loadPdfFromNetwork(url);
+
+                    // ignore: use_build_context_synchronously
+                    openPdf(context, file, url);
+                  },
+                );
+              },
+            );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
     );
   }
+
+  void openPdf(BuildContext context, File file, String url) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PdfViewer(
+            file: file,
+            url: url,
+          ),
+        ),
+      );
 }

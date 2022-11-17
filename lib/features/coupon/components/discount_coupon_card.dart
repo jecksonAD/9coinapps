@@ -3,21 +3,8 @@ import 'package:ninecoin/assets/assets.dart';
 
 class DiscountCouponCard extends StatelessWidget {
   final String imageUrl;
-  final String maxredeemper;
-  final String title;
-  final String originalpoint;
-  final String promopoint;
-  final String period;
   final Function()? onTap;
-  const DiscountCouponCard(
-      {Key? key,
-      required this.imageUrl,
-      required this.maxredeemper,
-      required this.title,
-      required this.originalpoint,
-      required this.promopoint,
-      required this.period,
-      this.onTap})
+  const DiscountCouponCard({Key? key, required this.imageUrl, this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -34,7 +21,7 @@ class DiscountCouponCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.grey,
                   image: DecorationImage(
-                      image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                      image: AssetImage(Assets.iphone), fit: BoxFit.cover),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
@@ -55,15 +42,15 @@ class DiscountCouponCard extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
+                      const Text(
+                        'J Qroue',
                         style: TextStyle(
                             fontSize: 16,
                             color: Color(0xff70bea4),
                             fontWeight: FontWeight.bold),
                       ),
                       const Text(
-                        '',
+                        '- Dye Hair',
                         style: TextStyle(
                           fontSize: 11,
                           color: Color(0xff70bea4),
@@ -73,7 +60,7 @@ class DiscountCouponCard extends StatelessWidget {
                         height: size.height * 0.01,
                       ),
                       Row(
-                        children: [
+                        children: const [
                           Text(
                             'Point:',
                             style: TextStyle(
@@ -82,7 +69,7 @@ class DiscountCouponCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            promopoint,
+                            '40',
                             style: TextStyle(
                               fontSize: 18,
                               color: Color(0xff70bea4),
@@ -90,8 +77,8 @@ class DiscountCouponCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        'Point: ' + originalpoint,
+                      const Text(
+                        'Point: 50',
                         style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           decorationColor: Colors.red,
@@ -170,13 +157,13 @@ class DiscountCouponCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
-                      'Limited ' + maxredeemper + ' Only',
+                      'Limited 5 Only',
                       style: TextStyle(fontSize: 10, color: Colors.white),
                     ),
                     Text(
-                      period,
+                      '1/5/2022 - 31/5/2022',
                       style: TextStyle(fontSize: 10, color: Colors.white),
                     ),
                   ],

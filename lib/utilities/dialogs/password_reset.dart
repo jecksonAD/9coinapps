@@ -9,7 +9,7 @@ Future<bool> showResetPasswordDialog(BuildContext context) {
     imageUrl: Assets.changePassword,
     title: "Reset Your Password?",
     content:
-        "please enter your email address,You will receive a code to activate a new password via email.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit proin et orci in quam.",
     optionsBuilder: () => {
       "Cancel": false,
       "Confirm": true,

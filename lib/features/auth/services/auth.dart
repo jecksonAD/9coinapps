@@ -16,13 +16,12 @@ Future<RegisterResponse> registerUser(
     headers: {"Content-Type": "application/json"},
     body: json.encode(registerUser.toMap()),
   );
-
   if (response.statusCode == 200 || response.statusCode == 201) {
     RegisterResponse user =
         RegisterResponse.fromJson(json.decode(response.body));
-    // setUser(user);
 
-    //print(user);
+    setUser(user);
+
     return user;
   } else {
     throw json.decode(response.body)["error"];
@@ -37,9 +36,9 @@ Future<String> loginUser(
   var response = await http.post(uri,
       headers: {"Content-Type": "application/json"},
       body: json.encode({"email": email, "password": password}));
+  print(response.statusCode);
   if (response.statusCode == 200 || response.statusCode == 201) {
     LoginResponse user = LoginResponse.fromJson(json.decode(response.body));
-
     setLoginUserInfo(user);
     return "Success";
   } else {
@@ -47,37 +46,17 @@ Future<String> loginUser(
   }
 }
 
-Future<String> getUserdata({required String id}) async {
-  String url = Api.getuserdata;
-  //print(url);
+Future<String> forgetPass({required String email}) async {
+  String url = "${Api.forgetPassword}?email=$email";
   var uri = Uri.parse(url);
 
-  var response = await http.post(uri,
-      headers: {"Content-Type": "application/json"},
-      body: json.encode({"id": id}));
-  // print(response.body);
+  var response = await http.post(uri, headers: {
+    "Content-Type": "application/json",
+  });
   if (response.statusCode == 200 || response.statusCode == 201) {
-    GetUserData user = GetUserData.fromJson(json.decode(response.body));
-    //  print(json.decode(response.body));
-    setUserInfo(user);
-    return "Success";
+    return json.decode(response.body)["success"];
   } else {
-    throw json.decode(response.body)["error"];
-  }
-}
-
-Future<String> ForgotPassword({required String email}) async {
-  String url = Api.forgetpassword;
-  var uri = Uri.parse(url);
-  print(url);
-  var response = await http.post(uri,
-      headers: {"Content-Type": "application/json"},
-      body: json.encode({"email": email}));
-
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    return json.decode(response.body)["data"];
-  } else {
-    throw json.decode(response.body)["error"];
+    throw json.decode(response.body)["unsuccess"];
   }
 }
 

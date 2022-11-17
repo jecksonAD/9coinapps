@@ -4,7 +4,6 @@ import 'package:ninecoin/colors/colors.dart';
 import 'package:ninecoin/typography/text_styles.dart';
 
 import '../components/draw_item_list.dart';
-import '../components/lucky_draw_win.dart';
 import '../components/lucky_drawn_Items.dart';
 
 class LuckydrawPage extends StatefulWidget {
@@ -20,7 +19,7 @@ class _LuckydrawPageState extends State<LuckydrawPage>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -37,7 +36,6 @@ class _LuckydrawPageState extends State<LuckydrawPage>
             tabs: const [
               Tab(text: 'Draw'),
               Tab(text: 'Drawn'),
-              Tab(text: 'Win'),
             ],
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
@@ -49,8 +47,7 @@ class _LuckydrawPageState extends State<LuckydrawPage>
             controller: _tabController,
             children: [
               DrawItemsList(),
-              LuckyDrwanItems(),
-              LuckyDrawWin(),
+              const LuckyDrwanItems(),
             ],
           ),
         ),
